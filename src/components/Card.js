@@ -3,7 +3,7 @@ import React from 'react'
 const Card = () => {
     return (
         <div className="card" style={{ width: "18rem" }}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src="https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcRRto3IlY56MlAIOAvXHvPEVxBDVzG1uz1zULEBYdJ-I4Aa-xOyPEVvv7fmIjLnxaOz" className="card-img-top" alt="..." />
             <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <p className="card-text">Some quick example</p>

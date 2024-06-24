@@ -1,19 +1,28 @@
-const express = require("express")
-const User = require("../model/User")
+const express = require("express");
+const User = require("../model/User");
 
-const router = express.Router()
+const router = express.Router();
+
 router.post("/createuser", async (req, res) => {
     try {
-        await User.create({
-            name: "tinku",
-            email: "tinku@gmail.com",
-            password: "123123"
-        })
-        res.json({ success: true });
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false })
-    }
-})
+        const { name, email, password } = req.body;
+        if (!name || !email || !password) {
+            return res.status(400).json({ success: false, message: "All fields are required" });
+        }
 
-module.exports = router
+
+        const newUser = new User({
+            name,
+            email,
+            password,
+        });
+
+        const response = await newUser.save();
+        res.status(200).json({ success: true, data: response });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+module.exports = router;
