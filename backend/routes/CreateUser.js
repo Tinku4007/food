@@ -1,7 +1,8 @@
 const express = require("express");
 const User = require("../model/User");
-
+const bcrypt = require('bcrypt');
 const router = express.Router();
+const saltRounds = 10;
 
 router.post("/createuser", async (req, res) => {
     try {
@@ -10,11 +11,11 @@ router.post("/createuser", async (req, res) => {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
 
-
+        const hash = bcrypt.hashSync(password, saltRounds);
         const newUser = new User({
             name,
             email,
-            password,
+            password: hash
         });
 
         const response = await newUser.save();
@@ -24,5 +25,26 @@ router.post("/createuser", async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
+router.post("/loginuser", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const userData = await User.findOne({ email })
+        if (!userData) {
+            return res.status(404).json({ success: false, message: "User not found" })
+        }
+        const isMtach = await bcrypt.compare(password, userData.password)
+        if (!isMtach) {
+            return res.status(400).json({ success: false, message: "Invalid credentials passowrd" })
+        }
+        res.status(200).json({ success: true, data: userData })
+
+    } catch (error) {
+        console.log(error)
+        res.status(200).json({ success: false })
+    }
+})
+
+
 
 module.exports = router;
