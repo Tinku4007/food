@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.use('/api' , router)
+app.use('/api', router)
+app.use("/api", require("./routes/DisplayData"))
 
 app.listen(port, () => {
     console.log("Server running on port 5000")

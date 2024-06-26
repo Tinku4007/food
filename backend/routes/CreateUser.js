@@ -2,6 +2,8 @@ const express = require("express");
 const User = require("../model/User");
 const bcrypt = require('bcrypt');
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const JwtSecretKey = "secretkey";
 const saltRounds = 10;
 
 router.post("/createuser", async (req, res) => {
@@ -37,7 +39,11 @@ router.post("/loginuser", async (req, res) => {
         if (!isMtach) {
             return res.status(400).json({ success: false, message: "Invalid credentials passowrd" })
         }
-        res.status(200).json({ success: true, data: userData })
+        const payload = {
+            userId: userData.id
+        }
+        const token = jwt.sign(payload, JwtSecretKey);
+        res.status(200).json({ success: true, token: token })
 
     } catch (error) {
         console.log(error)

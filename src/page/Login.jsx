@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { setLocalStorage } from '../utils/LocalStorageUtils'
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ password: "", email: "" })
@@ -13,7 +14,7 @@ const Login = () => {
       body: JSON.stringify({ email: credentials.email, password: credentials.password })
     })
     const json = await responce.json()
-    console.log(json)
+    setLocalStorage("token", json.token)
   }
 
   const onChange = (event) => {

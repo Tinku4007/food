@@ -1,22 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-const Card = () => {
+const Card = ({ foodItem }) => {
     return (
         <div className="card" style={{ width: "18rem" }}>
-            <img src="https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcRRto3IlY56MlAIOAvXHvPEVxBDVzG1uz1zULEBYdJ-I4Aa-xOyPEVvv7fmIjLnxaOz" className="card-img-top" alt="..." />
+            <img src={foodItem?.img} className="card-img-top" alt={foodItem?.name || "Food item"} />
             <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">Some quick example</p>
+                <h5 className="card-title">{foodItem?.name}</h5>
+                <p className="card-text">Some quick example text</p>
                 <div>
                     <select className='m-2 h-100 w-100 bg-success rounded'>
                         {
-                            Array.from(Array(6), (e, i) => {
-                                return (
-                                    <option key={i + 1} value={i + 1}>{i + 1}</option>
-                                )
-                            })
+                            foodItem?.options?.map((item, index) => (
+                                <option key={index} value={item.full}>{item.full}</option>
+                            ))
                         }
-
                     </select>
                     <select className='m-2 h-100 w-100 bg-success rounded'>
                         <option value='half'>Half</option>
@@ -28,7 +25,7 @@ const Card = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Card
+export default Card;
