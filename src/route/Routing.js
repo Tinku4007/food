@@ -5,18 +5,25 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Signup from '../page/Signup'
 import Login from '../page/Login'
+import { CartProvider } from '../components/ContextReducer'
+import Cart from '../components/Cart'
 
 const Routing = () => {
     return (
-        <BrowserRouter>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-            </Routes>
-            <Footer />
-        </BrowserRouter>
+        <CartProvider>
+
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Routes>
+                <Footer />
+            </BrowserRouter>
+        </CartProvider>
+
     )
 }
 

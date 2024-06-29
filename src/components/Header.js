@@ -1,7 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = () => {
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        localStorage.clear("token")
+        navigate("/login")
+    }
+    const handleCart = () => {
+        navigate("/cart")
+    }
     return (
         <nav className="navbar navbar-expand-lg bg-success navbar-dark">
             <div className="container-fluid">
@@ -10,22 +18,38 @@ const Header = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav me-auto mb-2">
                         <li className="nav-item">
-                            <Link className="nav-link " aria-current="page" to="/">Home</Link>
+                            <Link className="nav-link fs-5 text-white" aria-current="page" to="/">Home</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link " aria-current="page" to="/login">Login</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link " aria-current="page" to="/signup">Sign up</Link>
-                        </li>
-                 
+                        {
+                            (localStorage.getItem("token")) ?
+                                <li className="nav-item">
+                                    <Link className="nav-link fs-5 text-white" aria-current="page" to="/">My Order</Link>
+                                </li>
+                                : ""
+                        }
                     </ul>
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+
+                    {
+                        (!localStorage.getItem("token")) ?
+                            <div className="d-flex">
+                                <Link className="btn bg-white text-success mx-1" aria-current="page" to="/login">Login</Link>
+                                <Link className="btn bg-white text-success mx-1" aria-current="page" to="/signup">Sign up</Link>
+                            </div>
+                            :
+                            <>
+                                <div onClick={handleCart} className="d-flex btn bg-white text-success mx-1">
+                                    My Cart
+                                </div>
+                                <div className="d-flex btn bg-danger text-white mx-1" onClick={handleLogout}>
+                                    logout
+                                </div>
+                            </>
+                    }
+
+
+
                 </div>
             </div>
         </nav>

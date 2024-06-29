@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', router)
 app.use("/api", require("./routes/DisplayData"))
+app.use("/api", require("./routes/OrderData"))
 
 app.listen(port, () => {
     console.log("Server running on port 5000")

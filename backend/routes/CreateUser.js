@@ -43,7 +43,7 @@ router.post("/loginuser", async (req, res) => {
             userId: userData.id
         }
         const token = jwt.sign(payload, JwtSecretKey);
-        res.status(200).json({ success: true, token: token })
+        res.status(200).json({ success: true, token: token , userEmail:email})
 
     } catch (error) {
         console.log(error)

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { setLocalStorage } from '../utils/LocalStorageUtils'
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ password: "", email: "" })
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault()
     const responce = await fetch("http://localhost:5000/api/loginuser", {
@@ -14,7 +15,11 @@ const Login = () => {
       body: JSON.stringify({ email: credentials.email, password: credentials.password })
     })
     const json = await responce.json()
-    setLocalStorage("token", json.token)
+    if(json.success){
+      setLocalStorage("email", json.userEmail)
+      setLocalStorage("token", json.token)
+      navigate('/')
+    }
   }
 
   const onChange = (event) => {
